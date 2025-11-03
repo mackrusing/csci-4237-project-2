@@ -111,8 +111,8 @@ private fun Login() {
 
     // handlers
     fun onSuccessfulAuth() {
-//        val intent = Intent(context, HomeActivity::class.java)
-//        context.startActivity(intent)
+        val intent = Intent(context, HomeActivity::class.java)
+        context.startActivity(intent)
     }
 
     // effects

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.gms.google-services")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -68,4 +69,6 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
     // coil
     implementation("io.coil-kt:coil-compose:2.7.0")
+    // serialization
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
 }
