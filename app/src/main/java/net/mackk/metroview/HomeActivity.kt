@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,20 +51,17 @@ private fun ActivityRoot(innerPadding: PaddingValues) {
     val context = LocalContext.current
 
     // state
-    var data by remember { mutableStateOf(emptyList<RailLine>()) }
-    var isReloading by remember { mutableStateOf(true) }
+    var network by remember { mutableStateOf<Network?>(null) }
 
-    // effect
-    LaunchedEffect(isReloading) {
-        if (isReloading) {
-            val result = withContext(Dispatchers.IO) {
-                Api.getRailLines(context)
-            }
-            data = result
-            isReloading = false
-        }
+    // derived
+    val stations: List<RailStation> = network?.stations?.values?.toList() ?: emptyList()
+
+    // effects
+    LaunchedEffect(Unit) {
+        network = withContext(Dispatchers.IO) { Network(context) }
     }
 
+    // ui
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -70,7 +69,9 @@ private fun ActivityRoot(innerPadding: PaddingValues) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = data.toString())
+        LazyColumn {
+            items(stations) { Text(it.name) }
+        }
     }
 }
 

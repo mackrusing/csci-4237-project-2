@@ -2,14 +2,16 @@ package net.mackk.metroview
 
 import android.content.Context
 
-class Network {
+class Network(
+    context: Context,
+    var stations: MutableMap<String, RailStation> = HashMap(),
+) {
 
-    val stations: HashMap<String, RailStation> = HashMap()
-    val lines: HashMap<String, RailLine> = HashMap()
-    val routes: HashMap<String, RailRoute> = HashMap()
-
-    fun refresh(context: Context) {
-        Api.getRailLines(context)
+    // setup object
+    init {
+        for (line in Api.getAllRailStations(context)) {
+            stations.put(line.code, line)
+        }
     }
 
 }

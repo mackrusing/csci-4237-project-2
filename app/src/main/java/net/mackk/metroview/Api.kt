@@ -69,7 +69,7 @@ object Api {
         return Json.decodeFromString<RailLines>(responseBody).lines
     }
 
-    fun getAllRailStations(context: Context, stationCode: String): List<RailStation> {
+    fun getAllRailStations(context: Context): List<RailStation> {
         // create request
         val request = Request.Builder()
             .url("https://api.wmata.com/Rail.svc/json/jStations")
