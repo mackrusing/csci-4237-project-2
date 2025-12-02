@@ -1,6 +1,5 @@
 package net.mackk.metroview
 
-import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -84,16 +82,6 @@ fun HomeScreen(
                     SavedStation(navController, railNetwork, station)
                 }
             }
-        }
-        Spacer(Modifier.height(24.dp))
-        Button(
-            enabled = true,
-            onClick = {
-                val intent = Intent(context, LoginActivity::class.java)
-                context.startActivity(intent)
-            },
-        ) {
-            Text(stringResource(R.string.home_logout))
         }
     }
 

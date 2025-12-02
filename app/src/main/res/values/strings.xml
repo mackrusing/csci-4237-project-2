@@ -8,9 +8,15 @@
     <string name="login_password_error">Password must be at least 6 characters.</string>
     <string name="home_saved">Saved Stations</string>
     <string name="home_status">Status Alerts</string>
-    <string name="home_logout">Logout</string>
+    <string name="profile_logout">Logout</string>
     <string name="stations_search">Search</string>
     <string name="station_favorite">Add / Remove Favorite</string>
     <string name="station_next">Incoming Trains</string>
-    <string name="station_note">Arrival times are refreshed every 20 seconds.</string>
+    <string name="station_note">Arrival times are refreshed every 5 seconds.</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_stations">Stations</string>
+    <string name="nav_profile">Profile</string>
+    <string name="register_signup">Sign Up</string>
+    <string name="register_password_confirm">Confirm Password</string>
+    <string name="register_confirm_error">Passwords must maatch.</string>
 </resources>

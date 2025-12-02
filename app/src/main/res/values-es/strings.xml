@@ -8,9 +8,15 @@
     <string name="login_password_error">La contraseña debe tener al menos 6 caracteres.</string>
     <string name="home_saved">Estaciones Guardadas</string>
     <string name="home_status">Alertas de Estado</string>
-    <string name="home_logout">Cerrar Sesión</string>
+    <string name="profile_logout">Cerrar Sesión</string>
     <string name="stations_search">Buscar</string>
     <string name="station_favorite">Agregar / Eliminar Favorito</string>
     <string name="station_next">Trenes Entrantes</string>
-    <string name="station_note">Los tiempos de llegada se actualizan cada 20 segundos.</string>
+    <string name="station_note">Los tiempos de llegada se actualizan cada 5 segundos.</string>
+    <string name="nav_home">Inicio</string>
+    <string name="nav_stations">Estación</string>
+    <string name="nav_profile">Perfil</string>
+    <string name="register_signup">Inscribirse</string>
+    <string name="register_password_confirm">Confirmar Contraseña</string>
+    <string name="register_confirm_error">Las contraseñas deben coincidir.</string>
 </resources>

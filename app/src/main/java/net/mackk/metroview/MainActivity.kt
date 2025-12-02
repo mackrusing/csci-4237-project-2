@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarDefaults
@@ -18,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -78,11 +79,13 @@ private fun ActivityRoot() {
     val startDestination = Destination.HOME
 
     // values from prev activity
-    val username = activity?.intent?.getStringExtra("username")!!
+//    val username = activity?.intent?.getStringExtra("username")!!
+    var user: String? by remember { mutableStateOf(null) }
 
     // state
     val navController = rememberNavController()
-    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
+//    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
+    var currentNavBarScreen by rememberSaveable { mutableStateOf("home") }
 
     // shared state
     var railNetwork by remember { mutableStateOf(RailNetwork()) }
@@ -97,36 +100,80 @@ private fun ActivityRoot() {
         Scaffold(
             modifier = Modifier.fillMaxSize(),
             bottomBar = {
-                NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
-                    Destination.entries.forEachIndexed { index, destination ->
+                if (user != null) {
+                    NavigationBar(windowInsets = NavigationBarDefaults.windowInsets) {
                         NavigationBarItem(
-                            selected = selectedDestination == index,
+                            selected = currentNavBarScreen == "home",
                             onClick = {
-                                navController.navigate(route = destination.route)
-                                selectedDestination = index
+                                navController.navigate(HomeRoute)
+                                currentNavBarScreen = "home"
                             },
                             icon = {
                                 Icon(
-                                    imageVector = destination.icon,
+                                    imageVector = Icons.Default.Home,
                                     contentDescription = null,
                                 )
                             },
-                            label = { Text(destination.label) },
+                            label = { Text(stringResource(R.string.nav_home)) },
+                        )
+                        NavigationBarItem(
+                            selected = currentNavBarScreen == "stations",
+                            onClick = {
+                                navController.navigate(StationsRoute)
+                                currentNavBarScreen = "stations"
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.Info,
+                                    contentDescription = null,
+                                )
+                            },
+                            label = { Text(stringResource(R.string.nav_stations)) },
+                        )
+                        NavigationBarItem(
+                            selected = currentNavBarScreen == "profile",
+                            onClick = {
+                                navController.navigate(ProfileRoute)
+                                currentNavBarScreen = "profile"
+                            },
+                            icon = {
+                                Icon(
+                                    imageVector = Icons.Default.Person,
+                                    contentDescription = null,
+                                )
+                            },
+                            label = { Text(stringResource(R.string.nav_profile)) },
                         )
                     }
                 }
             },
         ) { innerPadding ->
-            NavHost(navController = navController, startDestination = startDestination.route) {
-                Destination.entries.forEach { destination ->
-                    composable(destination.route) {
-                        when (destination) {
-                            Destination.HOME -> HomeScreen(innerPadding, navController, railNetwork, username)
-                            Destination.STATIONS -> StationsScreen(
-                                innerPadding, navController, railNetwork
-                            )
-                        }
-                    }
+            NavHost(navController = navController, startDestination = LoginRoute) {
+                composable<LoginRoute> {
+                    LoginScreen(innerPadding, navController, {
+                        user = it
+                        currentNavBarScreen = "home"
+                        navController.navigate(HomeRoute)
+                    })
+                }
+                composable<RegisterRoute> {
+                    RegisterScreen(innerPadding, {
+                        user = it
+                        currentNavBarScreen = "home"
+                        navController.navigate(HomeRoute)
+                    })
+                }
+                composable<HomeRoute> {
+                    HomeScreen(innerPadding, navController, railNetwork, user ?: "")
+                }
+                composable<StationsRoute> {
+                    StationsScreen(innerPadding, navController, railNetwork)
+                }
+                composable<ProfileRoute> {
+                    ProfileScreen(innerPadding, user ?: "", {
+                        user = null
+                        navController.navigate(LoginRoute)
+                    })
                 }
                 composable<StationRoute> {
                     val args = it.toRoute<StationRoute>()
@@ -134,7 +181,7 @@ private fun ActivityRoot() {
                         innerPadding = innerPadding,
                         railNetwork = railNetwork,
                         stationCode = args.stationCode,
-                        username = username,
+                        username = user ?: "",
                     )
                 }
             }
