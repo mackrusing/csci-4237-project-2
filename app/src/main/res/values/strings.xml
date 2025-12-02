@@ -1,4 +1,16 @@
 <resources>
-    <string name="app_name">Metro View</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="app_name" translatable="false">Metro View</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_login">Login</string>
+    <string name="login_register">Register</string>
+    <string name="login_email_error">Please enter a valid email.</string>
+    <string name="login_password_error">Password must be at least 6 characters.</string>
+    <string name="home_saved">Saved Stations</string>
+    <string name="home_status">Status Alerts</string>
+    <string name="home_logout">Logout</string>
+    <string name="stations_search">Search</string>
+    <string name="station_favorite">Add / Remove Favorite</string>
+    <string name="station_next">Incoming Trains</string>
+    <string name="station_note">Arrival times are refreshed every 20 seconds.</string>
 </resources>

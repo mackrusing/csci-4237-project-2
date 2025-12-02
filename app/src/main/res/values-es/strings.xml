@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login_email">Correo</string>
+    <string name="login_password">Contraseña</string>
+    <string name="login_login">Acceso</string>
+    <string name="login_register">Registro</string>
+    <string name="login_email_error">Por favor, introduzca un correo electrónico válido.</string>
+    <string name="login_password_error">La contraseña debe tener al menos 6 caracteres.</string>
+    <string name="home_saved">Estaciones Guardadas</string>
+    <string name="home_status">Alertas de Estado</string>
+    <string name="home_logout">Cerrar Sesión</string>
+    <string name="stations_search">Buscar</string>
+    <string name="station_favorite">Agregar / Eliminar Favorito</string>
+    <string name="station_next">Trenes Entrantes</string>
+    <string name="station_note">Los tiempos de llegada se actualizan cada 20 segundos.</string>
+</resources>

@@ -135,4 +135,26 @@ object Api {
         return Json.decodeFromString<RailRoutes>(responseBody).routes
     }
 
+    fun getNextTrains(context: Context, stationCodes: List<String>): List<NextTrain> {
+        // create request
+        val request = Request.Builder()
+            .url("https://api.wmata.com/StationPrediction.svc/json/GetPrediction/${stationCodes.joinToString(",")}")
+            .header("api_key", context.getString(R.string.wmata_api_key))
+            .get()
+            .build()
+
+        // make req
+        val response: Response = client.newCall(request).execute()
+        val responseBody = response.body?.string()
+
+        // ensure body exists
+        if (!response.isSuccessful || responseBody.isNullOrEmpty()) {
+            Log.e("ApiLogging", "Api call failed")
+            return emptyList()
+        }
+
+        // parse req
+        return Json.decodeFromString<NextTrains>(responseBody).trains
+    }
+
 }

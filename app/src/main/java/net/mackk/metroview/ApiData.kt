@@ -82,3 +82,21 @@ data class RailTrackCircuit(
     @SerialName("SeqNum") val seqNum: Int,
     @SerialName("StationCode") val stationCode: String?,
 )
+
+@Serializable
+data class NextTrains(
+    @SerialName("Trains") val trains: List<NextTrain>,
+)
+
+@Serializable
+data class NextTrain(
+    @SerialName("Car") val cars: String?,
+    @SerialName("Destination") val destinationShort: String,
+    @SerialName("DestinationCode") val destinationCode: String?,
+    @SerialName("DestinationName") val destinationName: String?,
+    @SerialName("Group") val group: String,
+    @SerialName("Line") val line: String,
+    @SerialName("LocationCode") val locationCode: String,
+    @SerialName("LocationName") val locationName: String,
+    @SerialName("Min") val min: String,
+)

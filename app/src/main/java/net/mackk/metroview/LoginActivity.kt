@@ -10,7 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,33 +53,36 @@ class LoginActivity : ComponentActivity() {
         // setup ui
         enableEdgeToEdge()
         setContent {
-            ActivityWrapper { innerPadding ->
-                ActivityRoot(innerPadding)
-            }
+            ActivityRoot()
         }
     }
 
 }
 
 @Composable
-private fun ActivityRoot(innerPadding: PaddingValues) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(innerPadding),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Login()
+private fun ActivityRoot() {
+
+    // ui
+    MetroViewTheme {
+        Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Login()
+            }
+        }
     }
+
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun ActivityRootPreview() {
-    ActivityWrapper { innerPadding ->
-        ActivityRoot(innerPadding)
-    }
+    ActivityRoot()
 }
 
 @Composable
@@ -111,7 +114,8 @@ private fun Login() {
 
     // handlers
     fun onSuccessfulAuth() {
-        val intent = Intent(context, HomeActivity::class.java)
+        val intent = Intent(context, MainActivity::class.java)
+        intent.putExtra("username", username)
         context.startActivity(intent)
     }
 
@@ -153,13 +157,15 @@ private fun Login() {
             OutlinedTextField(
                 value = username,
                 onValueChange = { username = clean(it); error = null },
-                label = { Text("Email") },
+                label = { Text(stringResource(R.string.login_email)) },
                 placeholder = { Text("jane.doe@example.com") },
                 singleLine = true
             )
             Text(
-                text = if (username.isNotBlank() && !validUsername) "Please enter a valid email." else "",
-                modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                text = if (username.isNotBlank() && !validUsername) stringResource(R.string.login_email_error) else "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.labelSmall
             )
@@ -172,12 +178,14 @@ private fun Login() {
             OutlinedTextField(
                 value = password,
                 onValueChange = { password = it; error = null },
-                label = { Text("Password") },
+                label = { Text(stringResource(R.string.login_password)) },
                 visualTransformation = PasswordVisualTransformation()
             )
             Text(
-                text = if (password.isNotBlank() && !validPassword) "Password must be at least 6 characters." else "",
-                modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                text = if (password.isNotBlank() && !validPassword) stringResource(R.string.login_password_error) else "",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp),
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.labelSmall
             )
@@ -194,7 +202,7 @@ private fun Login() {
                     prefs.edit { putString("username", username) }
                 }, modifier = Modifier.fillMaxWidth(), enabled = !requestInProgress && validInput
             ) {
-                Text("Login")
+                Text(stringResource(R.string.login_login))
             }
 
             Spacer(Modifier.height(6.dp))
@@ -205,7 +213,7 @@ private fun Login() {
                     registerRequested = true
                 }, modifier = Modifier.fillMaxWidth(), enabled = !requestInProgress && validInput
             ) {
-                Text("Register")
+                Text(stringResource(R.string.login_register))
             }
         }
 
@@ -214,11 +222,14 @@ private fun Login() {
         // error text
         Text(
             error ?: "",
-            modifier = Modifier.fillMaxWidth().height(48.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp),
             color = MaterialTheme.colorScheme.error,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.labelSmall
         )
 
     }
+
 }
