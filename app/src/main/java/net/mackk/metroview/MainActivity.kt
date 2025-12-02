@@ -1,6 +1,5 @@
 package net.mackk.metroview
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -24,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,40 +49,17 @@ class MainActivity : ComponentActivity() {
 
 }
 
-private enum class Destination(
-    val route: String,
-    val label: String,
-    val icon: ImageVector,
-) {
-
-    HOME(route = "home", label = "Home", icon = Icons.Default.Home),
-
-//    LINES(route = "lines", label = "Lines", icon = Icons.Default.LocationOn),
-
-    STATIONS(route = "stations", label = "Stations", icon = Icons.Default.Info),
-
-}
-
 @Composable
 private fun ActivityRoot() {
 
     // context
     val context = LocalContext.current
-    val activity = when (context) {
-        is Activity -> context
-        else -> null
-    }
-
-    // config
-    val startDestination = Destination.HOME
 
     // values from prev activity
-//    val username = activity?.intent?.getStringExtra("username")!!
     var user: String? by remember { mutableStateOf(null) }
 
     // state
     val navController = rememberNavController()
-//    var selectedDestination by rememberSaveable { mutableIntStateOf(startDestination.ordinal) }
     var currentNavBarScreen by rememberSaveable { mutableStateOf("home") }
 
     // shared state

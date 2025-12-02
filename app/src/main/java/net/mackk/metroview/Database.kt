@@ -32,7 +32,6 @@ object Database {
         }
     }
 
-
     suspend fun addStation(username: String, combinedStationCode: String) {
         // get reference
         val ref = Firebase.database.getReference("$REF/${usernameToId(username)}/stations")

@@ -65,8 +65,7 @@ fun StationScreen(
         if (fav) {
             withContext(Dispatchers.IO) {
                 Database.toggleStation(
-                    username,
-                    station.getCombinedCode()
+                    username, station.getCombinedCode()
                 )
             }
             fav = false

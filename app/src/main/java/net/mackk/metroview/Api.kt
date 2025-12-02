@@ -138,7 +138,11 @@ object Api {
     fun getNextTrains(context: Context, stationCodes: List<String>): List<NextTrain> {
         // create request
         val request = Request.Builder()
-            .url("https://api.wmata.com/StationPrediction.svc/json/GetPrediction/${stationCodes.joinToString(",")}")
+            .url(
+                "https://api.wmata.com/StationPrediction.svc/json/GetPrediction/${
+                    stationCodes.joinToString(",")
+                }"
+            )
             .header("api_key", context.getString(R.string.wmata_api_key))
             .get()
             .build()
